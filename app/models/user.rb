@@ -1,3 +1,5 @@
+# ** User.rb
+# ** A user is a member of an organization (optionally) and can hold a role in that organization. 
 class User < ApplicationRecord
 
   enum role: [:admin, :organization]

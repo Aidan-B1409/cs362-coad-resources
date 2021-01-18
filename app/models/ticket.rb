@@ -1,3 +1,5 @@
+# ** Ticket.rb
+# ** A ticket is a request for help which can be issued by a user and assigned to an organization. 
 class Ticket < ApplicationRecord
 
   belongs_to :region

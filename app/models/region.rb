@@ -1,3 +1,6 @@
+# ** Region
+# ** A region is a service area where tickets are generated and stored. 
+# ** Used for coordinating resopnse location. 
 class Region < ApplicationRecord
 
   has_many :tickets
