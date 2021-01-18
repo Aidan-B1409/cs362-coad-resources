@@ -7,4 +7,8 @@ RSpec.describe Region, type: :model do
     expect(region).to respond_to(:name)
   end
 
+  describe 'assosciations' do
+    it { should have_many(:tickets).class_name('Ticket') }
+  end
+
 end

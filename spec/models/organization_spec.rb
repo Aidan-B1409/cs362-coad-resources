@@ -31,4 +31,10 @@ RSpec.describe Organization, type: :model do
     expect(org).to respond_to(:description)
   end
 
+  describe 'assosciations' do
+    it { should have_many(:users).class_name('User') }
+    it { should have_many(:tickets).class_name('Ticket') }
+    it { should have_and_belong_to_many(:resource_categories).class_name('ResourceCategory')}
+  end
+
 end
