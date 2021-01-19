@@ -5,6 +5,7 @@ RSpec.describe ResourceCategory, type: :model do
   it 'has a name' do
     expect(resource_category).to respond_to(:name)
   end
+  
   it 'has an activity state' do
     expect(resource_category).to respond_to(:active)
   end

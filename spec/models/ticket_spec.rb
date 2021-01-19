@@ -19,6 +19,10 @@ RSpec.describe Ticket, type: :model do
     expect(ticket).to respond_to(:closed)
   end
 
+  it 'has a closed time' do
+    expect(ticket).to respond_to(:closed_at)
+  end
+
   describe 'assosciations' do
     it { should belong_to(:region).class_name('Region') }
     it { should belong_to(:resource_category).class_name('ResourceCategory') }

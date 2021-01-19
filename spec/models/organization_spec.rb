@@ -31,6 +31,34 @@ RSpec.describe Organization, type: :model do
     expect(org).to respond_to(:description)
   end
 
+  it 'has a phone' do
+    expect(org).to respond_to(:phone)
+  end
+
+  it 'has a rejection reason' do
+    expect(org).to respond_to(:rejection_reason)
+  end
+
+  it 'has liability insurance' do
+    expect(org).to respond_to(:liability_insurance)
+  end
+
+  it 'has a primary name' do
+    expect(org).to respond_to(:primary_name)
+  end
+
+  it 'has a secondary name' do
+    expect(org).to respond_to(:secondary_name)
+  end
+
+  it 'has a secondary phone' do
+    expect(org).to respond_to(:secondary_phone)
+  end
+
+  it 'has a title' do
+    expect(org).to respond_to(:title)
+  end
+
   describe 'assosciations' do
     it { should have_many(:users).class_name('User') }
     it { should have_many(:tickets).class_name('Ticket') }
