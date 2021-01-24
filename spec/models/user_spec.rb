@@ -12,6 +12,6 @@ RSpec.describe User, type: :model do
 
   describe 'assosciations' do
     it { should belong_to(:organization).class_name('Organization').optional }
-  end
+  end 
 
 end

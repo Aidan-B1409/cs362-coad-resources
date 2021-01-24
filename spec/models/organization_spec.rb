@@ -65,4 +65,21 @@ RSpec.describe Organization, type: :model do
     it { should have_and_belong_to_many(:resource_categories).class_name('ResourceCategory')}
   end
 
+  describe 'validations' do
+    it { should validate_presence_of(:email) }
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:phone) }
+    it { should validate_presence_of(:status) }
+    it { should validate_presence_of(:primary_name) }
+    it { should validate_presence_of(:secondary_name) }
+    it { should validate_presence_of(:secondary_phone) }
+    it { should validate_length_of(:email).is_at_least(1).is_at_most(255).on(:create) }
+    # TODO: validates :email "format"
+    it { should validate_uniqueness_of(:email).case_insensitive }
+    it { should validate_length_of(:name).is_at_least(1).is_at_most(255).on(:create) }
+    it { should validate_uniqueness_of(:name).case_insensitive }
+    it { should validate_length_of(:description).is_at_most(1020).on(:create)}
+
+  end
+
 end
