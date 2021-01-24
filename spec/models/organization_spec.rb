@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Organization, type: :model do
   let(:org) {Organization.new}
+
   it 'has agreements' do
     agreements = [:agreement_one, :agreement_two, :agreement_three,
       :agreement_four, :agreement_five, :agreement_six, :agreement_seven,
@@ -59,6 +60,38 @@ RSpec.describe Organization, type: :model do
     expect(org).to respond_to(:title)
   end
 
+  ## Member functions
+
+  it 'can approve a status' do
+    organization = org
+    organization.approve
+    expect(org.status).to eq('approved')
+  end
+
+  it 'can reject a status' do
+    organization = org
+    organization.reject
+    expect(org.status).to eq('rejected')
+  end
+
+  it 'can set a default status if none is defined' do
+    organization = org
+    organization.set_default_status
+    expect(org.status).to eq('submitted')
+
+    #Test to make sure it doesn't overwrite already delclared status
+    organization = org
+    organization.reject
+    organization.set_default_status
+    expect(org.status).to eq('rejected')
+
+  end
+
+  it 'returns the name of the organization' do
+    organization = org
+    expect(org.to_s).to eq(org.name)
+  end
+
   describe 'assosciations' do
     it { should have_many(:users).class_name('User') }
     it { should have_many(:tickets).class_name('Ticket') }
@@ -79,7 +112,6 @@ RSpec.describe Organization, type: :model do
     it { should validate_length_of(:name).is_at_least(1).is_at_most(255).on(:create) }
     it { should validate_uniqueness_of(:name).case_insensitive }
     it { should validate_length_of(:description).is_at_most(1020).on(:create)}
-
   end
 
 end

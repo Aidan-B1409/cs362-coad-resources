@@ -23,6 +23,28 @@ RSpec.describe Ticket, type: :model do
     expect(ticket).to respond_to(:closed_at)
   end
 
+  #Member functions
+  it 'detects if a ticket is opened or closed' do
+    tic = ticket
+    tic.closed = false
+    expect(tic.open?).to be_truthy
+    tic.closed = true
+    expect(tic.open?).to be_falsey
+  end
+
+  it 'knows if the ticket is assigned to an organization' do
+    tic = ticket
+    expect(tic.captured?).to be_falsey
+    tic.organization = Organization.new
+    expect(tic.captured?).to be_truthy
+  end
+
+  it 'returns the ticket name in string format' do
+    tic = ticket
+    tic.id = 69_420
+    expect(tic.to_s).to eq("Ticket #{tic.id}")
+  end
+
   describe 'assosciations' do
     it { should belong_to(:region).class_name('Region') }
     it { should belong_to(:resource_category).class_name('ResourceCategory') }

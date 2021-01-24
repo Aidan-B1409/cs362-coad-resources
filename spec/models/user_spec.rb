@@ -12,6 +12,16 @@ RSpec.describe User, type: :model do
 
   describe 'assosciations' do
     it { should belong_to(:organization).class_name('Organization').optional }
-  end 
+  end
+
+  #Member functions
+  it 'should assign a default role to a user if one has not been assigned already' do
+    usr = user
+    usr.set_default_role
+    expect(usr.role).to eq('organization')
+    usr.role = :admin
+    usr.set_default_role
+    expect(usr.role).to eq('admin')
+  end
 
 end

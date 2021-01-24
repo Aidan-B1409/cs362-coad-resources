@@ -17,4 +17,17 @@ RSpec.describe Region, type: :model do
     it { should validate_uniqueness_of(:name).case_insensitive()}
   end
 
+  # Member functions
+
+  it 'returns the name of the region' do
+    reg = region
+    expect(reg.to_s).to eq(reg.name)
+  end
+
+  # Static functions
+  it 'declares a region to be unspecified' do
+    expect(Region.unspecified.name).to eq('Unspecified')
+  end
+
+
 end

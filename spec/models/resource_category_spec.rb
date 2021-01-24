@@ -21,4 +21,46 @@ RSpec.describe ResourceCategory, type: :model do
     it { should validate_uniqueness_of(:name).case_insensitive()}
   end
 
+  #Member functions
+  it 'activates a status' do
+    res_cat = resource_category
+    res_cat.activate
+    expect(res_cat.active).to be_truthy
+  end
+
+  it 'deactivates a status' do
+    res_cat = resource_category
+    res_cat.deactivate
+    expect(res_cat.active).to be_falsey
+  end
+
+  it 'indicates the activity status of the resource category' do
+    res_cat = resource_category
+    res_cat.activate
+    expect(res_cat.inactive?).to be_falsey
+
+    res_cat.deactivate
+    expect(res_cat.inactive?).to be_truthy
+  end
+
+  it 'returns the name of the resource category' do
+    res_cat = resource_category
+    expect(res_cat.to_s).to eq(res_cat.name)
+  end
+
+  #Scope functions
+  #TODO: how to test when database has no tables? 
+  it 'fetches the resource categories which are active' do
+    res_cat = resource_category
+    res_cat.activate
+    expect(ResourceCategory.active).to be_truthy
+  end
+
+  #TODO: how to test when database has no tables? 
+  it 'fetches the resource categories which are inactive' do
+    res_cat = resource_category
+    res_cat.deactivate
+    expect(ResourceCategory.inactive).to be_truthy
+  end
+
 end
