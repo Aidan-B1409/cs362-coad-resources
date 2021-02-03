@@ -15,13 +15,17 @@ RSpec.describe User, type: :model do
   end
 
   #Member functions
-  it 'should assign a default role to a user if one has not been assigned already' do
-    usr = user
-    usr.set_default_role
-    expect(usr.role).to eq('organization')
-    usr.role = :admin
-    usr.set_default_role
-    expect(usr.role).to eq('admin')
-  end
+  describe 'set_default_role' do
+    it 'should assign a default role to a user' do
+      user.role = nil
+      user.set_default_role
+      expect(user.role).to eq('organization')
+    end
 
+    it 'it does not change the existing role of a user' do
+      user.role = :admin
+      user.set_default_role
+      expect(user.role).to eq('admin')
+    end
+  end
 end

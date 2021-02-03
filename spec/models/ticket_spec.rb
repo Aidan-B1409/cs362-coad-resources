@@ -19,30 +19,57 @@ RSpec.describe Ticket, type: :model do
     expect(ticket).to respond_to(:closed)
   end
 
-  it 'has a closed time' do
+  it 'has a closed time' do 
     expect(ticket).to respond_to(:closed_at)
   end
 
   #Member functions
   it 'detects if a ticket is opened or closed' do
-    tic = ticket
-    tic.closed = false
-    expect(tic.open?).to be_truthy
-    tic.closed = true
-    expect(tic.open?).to be_falsey
+    ticket.closed = false
+    expect(ticket.open?).to be_truthy
+    ticket.closed = true
+    expect(ticket.open?).to be_falsey
   end
 
   it 'knows if the ticket is assigned to an organization' do
-    tic = ticket
-    expect(tic.captured?).to be_falsey
-    tic.organization = Organization.new
-    expect(tic.captured?).to be_truthy
+    expect(ticket.captured?).to be_falsey
+    ticket.organization = Organization.new
+    expect(ticket.captured?).to be_truthy
   end
 
   it 'returns the ticket name in string format' do
-    tic = ticket
-    tic.id = 69_420
-    expect(tic.to_s).to eq("Ticket #{tic.id}")
+    ticket.id = 69_420
+    expect(ticket.to_s).to eq("Ticket #{ticket.id}")
+  end
+
+  describe 'scopes' do
+
+    describe 'organization possession' do
+      let(:assigned_open_ticket) { create(:ticket, :open, :assigned) }
+      let(:unassigned_open_ticket) { build(:ticket, :open, :unassigned) }
+      let(:assigned_closed_ticket) { build(:ticket, :closed, :assigned) }
+
+      describe 'all organization' do
+        it 'returns all open tickets assigned to an organization' do
+          expect(Ticket.all_organization).to include(assigned_open_ticket)
+        end
+        it 'does not return tickets not assigned to an organization' do
+          expect(Ticket.all_organization).to_not include(unassigned_open_ticket)
+        end
+      end
+    end
+
+    describe 'closed' do
+      let(:closed_ticket) { build(:ticket, :closed) }
+      let(:open_ticket) { build(:ticket, :open) }
+
+      it 'includes closed tickets' do
+        expect(Ticket.closed).to include(closed_ticket)
+      end
+      it 'does not include non-closed tickets' do
+        expect(Ticket.closed).to_not include(open_ticket)
+      end
+    end
   end
 
   describe 'assosciations' do
@@ -54,8 +81,6 @@ RSpec.describe Ticket, type: :model do
   describe 'validations' do
     it{ should validate_presence_of(:name) }
     it{ should validate_presence_of(:phone) }
-    it{ should validate_presence_of(:region_id) }
-    it{ should validate_presence_of(:resource_category_id) }
     it{ should validate_length_of(:name).is_at_least(1).is_at_most(255).on(:create) }
     it{ should validate_length_of(:description).is_at_most(1020).on(:create) }
     # TODO: Validate phone phony_plausible true 

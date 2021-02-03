@@ -18,16 +18,13 @@ RSpec.describe Region, type: :model do
   end
 
   # Member functions
-
   it 'returns the name of the region' do
-    reg = region
-    expect(reg.to_s).to eq(reg.name)
+    expect(region.to_s).to eq(region.name)
   end
 
   # Static functions
   it 'declares a region to be unspecified' do
     expect(Region.unspecified.name).to eq('Unspecified')
   end
-
 
 end

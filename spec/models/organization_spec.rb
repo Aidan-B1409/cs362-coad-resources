@@ -63,32 +63,27 @@ RSpec.describe Organization, type: :model do
   ## Member functions
 
   it 'can approve a status' do
-    organization = org
-    organization.approve
+    org.approve
     expect(org.status).to eq('approved')
   end
 
   it 'can reject a status' do
-    organization = org
-    organization.reject
+    org.reject
     expect(org.status).to eq('rejected')
   end
 
   it 'can set a default status if none is defined' do
-    organization = org
-    organization.set_default_status
+    org.set_default_status
     expect(org.status).to eq('submitted')
 
     #Test to make sure it doesn't overwrite already delclared status
-    organization = org
-    organization.reject
-    organization.set_default_status
+    org.reject
+    org.set_default_status
     expect(org.status).to eq('rejected')
 
   end
 
   it 'returns the name of the organization' do
-    organization = org
     expect(org.to_s).to eq(org.name)
   end
 

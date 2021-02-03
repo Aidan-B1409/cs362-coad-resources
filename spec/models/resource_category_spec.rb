@@ -23,44 +23,42 @@ RSpec.describe ResourceCategory, type: :model do
 
   #Member functions
   it 'activates a status' do
-    res_cat = resource_category
-    res_cat.activate
-    expect(res_cat.active).to be_truthy
+    resource_category.activate
+    expect(resource_category.active).to be_truthy
   end
 
   it 'deactivates a status' do
-    res_cat = resource_category
-    res_cat.deactivate
-    expect(res_cat.active).to be_falsey
+    resource_category.deactivate
+    expect(resource_category.active).to be_falsey
   end
 
   it 'indicates the activity status of the resource category' do
-    res_cat = resource_category
-    res_cat.activate
-    expect(res_cat.inactive?).to be_falsey
+    resource_category.activate
+    expect(resource_category.inactive?).to be_falsey
 
-    res_cat.deactivate
-    expect(res_cat.inactive?).to be_truthy
+    resource_category.deactivate
+    expect(resource_category.inactive?).to be_truthy
   end
 
   it 'returns the name of the resource category' do
-    res_cat = resource_category
-    expect(res_cat.to_s).to eq(res_cat.name)
+    expect(resource_category.to_s).to eq(resource_category.name)
   end
 
   #Scope functions
-  #TODO: how to test when database has no tables? 
-  it 'fetches the resource categories which are active' do
-    res_cat = resource_category
-    res_cat.activate
-    expect(ResourceCategory.active).to be_truthy
-  end
 
-  #TODO: how to test when database has no tables? 
-  it 'fetches the resource categories which are inactive' do
-    res_cat = resource_category
-    res_cat.deactivate
-    expect(ResourceCategory.inactive).to be_truthy
-  end
+  describe 'activity methods' do
+    it 'fetches the resource categories which are active' do
+      active_resource_category = ResourceCategory.create(name: 'Active Category', active: true)
+      inactive_resource_category = ResourceCategory.create(name: 'Inactive Category', active: false)
+      expect(ResourceCategory.active).to include(active_resource_category)
+      expect(ResourceCategory.active).to_not include(inactive_resource_category)
+    end
 
+    it 'fetches the resource categories which are inactive' do
+      active_resource_category = ResourceCategory.create(name: 'Active Category', active: true)
+      inactive_resource_category = ResourceCategory.create(name: 'Inactive Category', active: false)
+      expect(ResourceCategory.inactive).to_not include(active_resource_category)
+      expect(ResourceCategory.inactive).to include(inactive_resource_category)
+    end
+  end
 end
