@@ -60,14 +60,30 @@ RSpec.describe Ticket, type: :model do
     end
 
     describe 'closed' do
-      let(:closed_ticket) { build(:ticket, :closed) }
-      let(:open_ticket) { build(:ticket, :open) }
+      let(:closed_ticket) { create(:ticket, :closed) }
+      let(:open_ticket) { create(:ticket, :open) }
 
       it 'includes closed tickets' do
         expect(Ticket.closed).to include(closed_ticket)
       end
       it 'does not include non-closed tickets' do
         expect(Ticket.closed).to_not include(open_ticket)
+      end
+    end
+
+    describe 'region' do
+      let(:in_region_ticket) { create(:ticket) }
+      let(:new_region) { create(:region, name:'New Fake') }
+      let(:other_region_ticket) do
+        create(:ticket)
+        in_region_ticket.region = new_region
+      end
+
+      it 'returns a ticket in a specific region' do
+        expect(Ticket.region(in_region_ticket.region_id)).to include(in_region_ticket)
+      end
+      it 'does not return a ticket not included in the region' do
+        expect(Ticket.region(new_region.id))
       end
     end
   end
@@ -79,11 +95,22 @@ RSpec.describe Ticket, type: :model do
   end
 
   describe 'validations' do
+
     it{ should validate_presence_of(:name) }
     it{ should validate_presence_of(:phone) }
     it{ should validate_length_of(:name).is_at_least(1).is_at_most(255).on(:create) }
     it{ should validate_length_of(:description).is_at_most(1020).on(:create) }
-    # TODO: Validate phone phony_plausible true 
+    
+    describe 'phony plausible' do
+      let(:ticket_valid_phone) { create(:ticket, :valid_phone) }
+      let(:ticket_invalid_phone) { create(:ticket, :invalid_phone) }
+      it 'verifies that a valid phone number is valid' do
+        expect { ticket_valid_phone.save! }.to_not raise_error(ActiveRecord::RecordInvalid)
+      end
+      it 'fails to validate invalid phone numbers ' do
+        expect { ticket_invalid_phone.save! }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
   end
 
 end

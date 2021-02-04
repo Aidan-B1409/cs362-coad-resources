@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+# TODO-  where do I use an org factory in this spec?
+
 RSpec.describe Organization, type: :model do
   let(:org) {Organization.new}
 
@@ -76,7 +78,7 @@ RSpec.describe Organization, type: :model do
     org.set_default_status
     expect(org.status).to eq('submitted')
 
-    #Test to make sure it doesn't overwrite already delclared status
+    # Test to make sure it doesn't overwrite already delclared status
     org.reject
     org.set_default_status
     expect(org.status).to eq('rejected')
