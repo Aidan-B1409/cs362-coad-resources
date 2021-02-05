@@ -27,6 +27,7 @@ FactoryBot.define do
     trait :valid_phone do
       phone { '1+541-392-5468' }
     end
+
     trait :invalid_phone do
       phone { '888420' }
     end

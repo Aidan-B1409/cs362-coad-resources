@@ -44,21 +44,19 @@ RSpec.describe ResourceCategory, type: :model do
     expect(resource_category.to_s).to eq(resource_category.name)
   end
 
-  #Scope functions
+  describe 'scopes' do
+    describe 'activity methods' do
+      let(:active_resource_category) { create(:resource_category, :is_active) }
+      let(:inactive_resource_category) { create(:resource_category, :inactive) }
+      it 'fetches the resource categories which are active' do
+        expect(ResourceCategory.active).to include(active_resource_category)
+        expect(ResourceCategory.active).to_not include(inactive_resource_category)
+      end
 
-  describe 'activity methods' do
-    it 'fetches the resource categories which are active' do
-      active_resource_category = ResourceCategory.create(name: 'Active Category', active: true)
-      inactive_resource_category = ResourceCategory.create(name: 'Inactive Category', active: false)
-      expect(ResourceCategory.active).to include(active_resource_category)
-      expect(ResourceCategory.active).to_not include(inactive_resource_category)
-    end
-
-    it 'fetches the resource categories which are inactive' do
-      active_resource_category = ResourceCategory.create(name: 'Active Category', active: true)
-      inactive_resource_category = ResourceCategory.create(name: 'Inactive Category', active: false)
-      expect(ResourceCategory.inactive).to_not include(active_resource_category)
-      expect(ResourceCategory.inactive).to include(inactive_resource_category)
+      it 'fetches the resource categories which are inactive' do
+        expect(ResourceCategory.inactive).to_not include(active_resource_category)
+        expect(ResourceCategory.inactive).to include(inactive_resource_category)
+      end
     end
   end
 end

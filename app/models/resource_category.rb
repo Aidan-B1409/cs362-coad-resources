@@ -33,4 +33,4 @@ class ResourceCategory < ApplicationRecord
   end
 
 end
-  
+   
