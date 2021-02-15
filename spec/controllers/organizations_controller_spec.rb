@@ -40,60 +40,103 @@ RSpec.describe OrganizationsController, type: :controller do
       expect(response).to redirect_to(new_user_session_url)
     end
     # TODO - no such method? 
-    # it 'are redirected unauthenticated delete requests to the sign_in screen' do
-    #   delete :destroy, params: { id: 'fake' }
-    #   expect(response).to redirect_to(new_user_session_url)
-    # end
+    it 'are redirected unauthenticated delete requests to the sign_in screen' do
+      delete :destroy, params: { id: 'fake' }
+      expect(response).to redirect_to(new_user_session_url)
+    end
   end
 
   context 'organization users' do
     before do
+      # TODO - Need help here, users not authenticating
       org_user = build(:user, :organization)
-      allow(request.env['warden']).to recieve(:authenticate!).and_return(org_user)
-      allow(controller).to recieve(:current_user).and_return(org_user)
+      allow(request.env['warden']).to receive(:authenticate!).and_return(org_user)
+      allow(controller).to receive(:current_user).and_return(org_user)
     end
 
-    define 'unallowed actions' do
-      it 'Redirects post requests for approve to sign_in' do
-        post :approve, params: { id: 'fake' }
-        expect(response).to redirect_to(new_user_session_url)
-      end
-      it 'Redirects post requests for reject to sign_in' do
-        post :reject, params: { id: 'fake' }
-        expect(response).to redirect_to(new_user_session_url)
-      end
+    it 'Redirects post requests for approve to sign_in' do
+      post :approve, params: { id: 'fake' }
+      expect(response).to redirect_to(dashboard_url)
+    end
+    it 'Redirects post requests for reject to sign_in' do
+      post :reject, params: { id: 'fake' }
+      expect(response).to redirect_to(dashboard_url)
     end
 
-    define 'allowed actions'do
-      it 'Allows get requests to index' do
-        get :index
-        expect(response).to be_successful
-      end
-      it 'Allows get requests to show' do
-        get :show, params: { id: 'fake' }
-        expect(response).to be_successful
-      end
-      it 'Allows get requests to new' do
-        get :new
-        expect(response).to be_successful
-      end
-      it 'Allows post requests to create' do
-        post :create
-        expect(response).to be_successful
-      end
-      it 'Allows get requests to edit' do
-        get :edit, params: { id: 'fake' }
-        expect(response).to be_successful
-      end
-      it 'Allows patch requests to update' do
-        patch :update, params: { id: 'fake' }
-        expect(response).to be_successful
-      end
-      it 'Allows put requests to update' do
-        put :update, params: { id: 'fake' }
-        fail
-        expect(response).to be_successful
-      end
+    it 'Allows get requests to index' do
+      get :index
+      expect(response).to be_successful
+    end
+    it 'Allows get requests to show' do
+      get :show, params: { id: 'fake' }
+      expect(response).to be_successful
+    end
+    it 'Allows get requests to new' do
+      get :new
+      expect(response).to be_successful
+    end
+    it 'Allows post requests to create' do
+      post :create
+      expect(response).to be_successful
+    end
+    it 'Allows get requests to edit' do
+      get :edit, params: { id: 'fake' }
+      expect(response).to be_successful
+    end
+    it 'Allows patch requests to update' do
+      patch :update, params: { id: 'fake' }
+      expect(response).to be_successful
+    end
+    it 'Allows put requests to update' do
+      put :update, params: { id: 'fake' }
+      expect(response).to be_successful
+    end
+  end
+  
+  context 'admin users' do
+    before do
+      # TODO - Need help here, users not authenticating
+      admin_usr = build(:user, :admin)
+      allow(request.env['warden']).to receive(:authenticate!).and_return(admin_usr)
+      allow(controller).to receive(:current_user).and_return(admin_usr)
+    end
+
+    it 'Allows post requests to approve' do
+      post :approve, params: { id: 'fake' }
+      expect(response).to be_successful
+    end
+    it 'Allows post requests to reject' do
+      post :reject, params: { id: 'fake' }
+      expect(response).to be_successful
+    end
+
+    it 'Allows get requests to index' do
+      get :index
+      expect(response).to be_successful
+    end
+    it 'Allows get requests to show' do
+      get :show, params: { id: 'fake' }
+      expect(response).to be_successful
+    end
+    it 'Allows get requests to new' do
+      get :new
+      expect(response).to be_successful
+    end
+    it 'Allows post requests to create' do
+      post :create
+      expect(response).to be_successful
+    end
+    it 'Allows get requests to edit' do
+      get :edit, params: { id: 'fake' }
+      expect(response).to be_successful
+    end
+    it 'Allows patch requests to update' do
+      patch :update, params: { id: 'fake' }
+      expect(response).to be_successful
+    end
+    it 'Allows put requests to update' do
+      put :update, params: { id: 'fake' }
+      expect(response).to be_successful
     end
   end
 end

@@ -2,20 +2,23 @@ require 'rails_helper'
 
 RSpec.describe TicketsController, type: :controller do
   context 'unauthenticated users' do
-    # TODO - should capture and release be protected? 
-    # it 'redirects unauthenticated post requests for capture to the sign_in screen' do
-    #   post :capture, params: { id: 'fake' }
-    #   expect(response).to redirect_to(new_user_session_url)
-    # end
-    # it 'redirects unauthenticated post requests for release to the sign_in screen' do
-    #   post :release, params: { id: 'fake' }
-    #   expect(response).to redirect_to(new_user_session_url)
-    # end
-    # TODO - Should close be protected?
-    # it 'redirects unauthenticated delete requests to the sign_in screen' do
-    #   delete :destroy, params: { id: 'fake' }
-    #   expect(response).to redirect_to(new_user_session_url)
-    # end
+    before do
+      org_usr = build(:user, :organization)
+      allow(request.env['warden']).to receive(:authenticate!).and_return(org_usr)
+      allow(controller).to receive(:current_user).and_return(org_usr)
+    end
+    it 'allows post requests to create' do
+      post :create
+      expect(response).to be_successful
+    end
+    it 'allows get requests to new' do
+      get :new
+      expect(response).to be_successful
+    end
+    it 'redirects get requests for show to sign_in' do
+      get :show, params: { id: 'fake' }
+      expect(response).to redirect_to(new_user_session_url)
+    end
   end
 
 end
