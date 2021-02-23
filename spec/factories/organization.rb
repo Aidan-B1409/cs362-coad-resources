@@ -12,4 +12,8 @@ FactoryBot.define do
     description { 'Fake description' }
     rejection_reason { 'Fake reason' }
   end
+
+  trait 'approved' do
+    status { 'approved' }
+  end
 end

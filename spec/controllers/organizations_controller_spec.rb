@@ -39,19 +39,23 @@ RSpec.describe OrganizationsController, type: :controller do
       put :update, params: { id: 'fake' }
       expect(response).to redirect_to(new_user_session_url)
     end
-    # TODO - no such method? 
-    it 'are redirected unauthenticated delete requests to the sign_in screen' do
-      delete :destroy, params: { id: 'fake' }
-      expect(response).to redirect_to(new_user_session_url)
-    end
+    # TODO: no such method?
+    # it 'are redirected unauthenticated delete requests to the sign_in screen' do
+    #   delete :destroy, params: { id: 'fake' }
+    #   expect(response).to redirect_to(new_user_session_url)
+    # end
+  end
+
+  context 'regular users' do
+    
   end
 
   context 'organization users' do
     before do
-      # TODO - Need help here, users not authenticating
       org_user = build(:user, :organization)
       allow(request.env['warden']).to receive(:authenticate!).and_return(org_user)
       allow(controller).to receive(:current_user).and_return(org_user)
+      allow(controller).to receive(:set_organization).and_return(true)
     end
 
     it 'Redirects post requests for approve to sign_in' do
