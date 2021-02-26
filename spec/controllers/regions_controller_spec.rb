@@ -37,45 +37,45 @@ RSpec.describe RegionsController, type: :controller do
     end
   end
 
-  # context 'organization users' do
-  #   before do
-  #     #TODO - auth error
-  #     org_usr = build(:user, :organization)
-  #     allow(request.env['warden']).to receive(:authenticate!).and_return(org_usr)
-  #     allow(controller).to receive(:current_user).and_return(org_usr)
-  #   end
-  #   it 'allows get requests for index' do
-  #     get :index
-  #     expect(response).to be_successful
-  #   end
-  #   it 'allows get requests for show' do
-  #     get :show, params: { id: 'fake' }
-  #     expect(response).to be_successful
-  #   end
-  #   it 'allows get requests for new' do
-  #     get :new
-  #     expect(response).to be_successful
-  #   end
-  #   it 'allows post requests for create' do
-  #     post :create
-  #     expect(response).to be_successful
-  #   end
-  #   it 'allows get requests for edit' do
-  #     get :edit, params: { id: 'fake' }
-  #     expect(response).to be_successful
-  #   end
-  #   it 'allows patch requests for update' do
-  #     patch :update, params: { id: 'fake' }
-  #     expect(response).to be_successful
-  #   end
-  #   it 'allows put requests for update' do
-  #     put :update, params: { id: 'fake' }
-  #     expect(response).to be_successful
-  #   end
-  #   it 'allows delete requests for destroy' do
-  #     delete :destroy, params: { id: 'fake' }
-  #     expect(response).to be_successful
-  #   end
-  # end
+  context 'organization users' do
+    before do
+      #TODO - auth error
+      org_usr = build(:user, :organization)
+      allow(request.env['warden']).to receive(:authenticate!).and_return(org_usr)
+      allow(controller).to receive(:current_user).and_return(org_usr)
+    end
+    it 'redirects get requests to index to dashboard' do
+      get :index
+      expect(response).to redirect_to(dashboard_url)
+    end
+    it 'redirects get requests to show to dashboard' do
+      get :show, params: { id: 'fake' }
+      expect(response).to redirect_to(dashboard_url)
+    end
+    it 'redirects get requests to new to dashboard' do
+      get :new
+      expect(response).to redirect_to(dashboard_url)
+    end
+    it 'redirects post requests to create to dashboard' do
+      post :create
+      expect(response).to redirect_to(dashboard_url)
+    end
+    it 'redirects get requests to edit to dashboard' do
+      get :edit, params: { id: 'fake' }
+      expect(response).to redirect_to(dashboard_url)
+    end
+    it 'redirects patch requests to update to dashboard' do
+      patch :update, params: { id: 'fake' }
+      expect(response).to redirect_to(dashboard_url)
+    end
+    it 'redirects put requests to update to dashboard' do
+      put :update, params: { id: 'fake' }
+      expect(response).to redirect_to(dashboard_url)
+    end
+    it 'redirects delete requests to destroy to dashboard' do
+      delete :destroy, params: { id: 'fake' }
+      expect(response).to redirect_to(dashboard_url)
+    end
+  end
 
 end
