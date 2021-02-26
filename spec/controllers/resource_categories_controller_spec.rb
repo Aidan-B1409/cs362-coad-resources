@@ -52,45 +52,45 @@ RSpec.describe ResourceCategoriesController, type: :controller do
       allow(request.env['warden']).to receive(:authenticate!).and_return(org_usr)
       allow(controller).to receive(:current_user).and_return(org_usr)
     end
-    it 'allows get requests to index' do
+    it 'redirects get requests to index to dashboard' do
       get :index
-      expect(response).to be_successful
+      expect(response).to redirect_to(dashboard_url)
     end
-    it 'allows get requests to show' do
+    it 'redirects get requests to show to dashboard' do
       get :show, params: { id: 'fake' }
-      expect(response).to be_successful
+      expect(response).to redirect_to(dashboard_url)
     end
-    it 'allows get requests to new' do
+    it 'redirects get requests to new to dashboard' do
       get :new
-      expect(response).to be_successful
+      expect(response).to redirect_to(dashboard_url)
     end
-    it 'allows post requests to create' do
+    it 'redirects post requests to create to dashboard' do
       post :create
-      expect(response).to be_successful
+      expect(response).to redirect_to(dashboard_url)
     end
-    it 'allows patch requests to activate' do
+    it 'redirects patch requests to activate to dashboard' do
       patch :activate, params: { id: 'fake' }
-      expect(response).to be_successful
+      expect(response).to redirect_to(dashboard_url)
     end
-    it 'allows patch requests to deactivate' do
+    it 'redirects patch requests to deactivate to dashboard' do
       patch :deactivate, params: { id: 'fake' }
-      expect(response).to be_successful
+      expect(response).to redirect_to(dashboard_url)
     end
-    it 'allows get requests to edit' do
+    it 'redirects get requests to edit to dashboard' do
       get :edit, params: { id: 'fake' }
-      expect(response).to be_successful
+      expect(response).to redirect_to(dashboard_url)
     end
-    it 'allows patch requests to update' do
+    it 'redirects patch requests to update to dashboard' do
       patch :update, params: { id: 'fake' }
-      expect(response).to be_successful
+      expect(response).to redirect_to(dashboard_url)
     end
-    it 'allows put requests to update' do
+    it 'redirects put requests to update to dashboard' do
       put :update, params: { id: 'fake' }
-      expect(response).to be_successful
+      expect(response).to redirect_to(dashboard_url)
     end
-    it 'allows delete requests to destroy' do
+    it 'redirects delete requests to destroy to dashboard' do
       delete :destroy, params: { id: 'fake' }
-      expect(response).to be_successful
+      expect(response).to redirect_to(dashboard_url)
     end
   end
 
