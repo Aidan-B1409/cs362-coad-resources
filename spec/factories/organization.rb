@@ -16,4 +16,8 @@ FactoryBot.define do
   trait 'approved' do
     status { 'approved' }
   end
+
+  trait 'pending' do
+    status { 'submitted' }
+  end
 end
