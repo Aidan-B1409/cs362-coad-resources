@@ -7,7 +7,12 @@ FactoryBot.define do
 
     trait :organization do
       role { 'organization' }
-      organization { build(:organization, :approved) } 
+      organization { build(:organization, :approved) }
+    end
+
+    trait :nilorg do
+      role { 'organization' }
+      organization { nil }
     end
 
     trait :admin do

@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Approving an organization', type: :feature do
 
-  let(:admin){ create(:user, :admin) }
-  let(:pending_organization){ create(:organization, :pending) }
+  let(:admin) { create(:user, :admin) }
+  let(:pending_organization) { create(:organization, :pending) }
 
   it 'succeeds' do
     log_in_as(admin)
