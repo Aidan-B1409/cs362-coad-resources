@@ -11,5 +11,9 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe TicketsHelper, type: :helper do
-
+  describe '#format_phone_number' do
+    it 'normalizes a hyphenated phone number and adds a country code' do
+      expect(helper.format_phone_number("541-867-5309")).to eq("+15418675309")
+    end   
+  end
 end
