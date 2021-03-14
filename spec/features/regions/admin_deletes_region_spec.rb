@@ -12,10 +12,8 @@ RSpec.describe 'Deleting a Region', type: :feature do
     visit regions_url
     click_on region.name
     click_on 'Delete'
-    # TODO - handle accepting alerts 
-    alert = page.driver.browser.switch_to.alert
-    alert.accept
-    expect(page.body).to have_text("Region test was deleted.")
+
+    expect(page.body).to have_text("Region #{region.name} was deleted.")
   end
 
 end

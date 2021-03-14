@@ -11,10 +11,7 @@ RSpec.describe 'Deleting a Ticket', type: :feature do
     visit dashboard_url
     click_on tc.name
     click_on 'Delete'
-    # TODO - handle accepting alerts 
-    alert = page.driver.browser.switch_to.alert
-    alert.accept
-    expect(page.body).to have_text("#{tc.name} was deleted.")
-  end
 
+    expect(page.body).to have_text("#{tc.id} was deleted.")
+  end
 end

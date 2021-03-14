@@ -13,9 +13,10 @@ RSpec.describe 'Creating a Ticket', type: :feature do
     click_on 'Get Help'
     fill_in 'Full Name', with: 'fakey mcfakeface'
     fill_in 'Phone Number', with: '541-867-5309'
-    # TODO - finding menu options?
-    find('#ticket_region_id').find("#{region.name}").select_option
-    find('#ticket_resource_category_id').find("#{resource_category.name}").select_option
+
+    select(region.name, from: 'ticket_region_id')
+    select(resource_category.name, from: 'ticket_resource_category_id')
+
     fill_in 'Description', with: 'help pls'
     click_on 'Send this help request'
     click_on 'Return To Home'
@@ -25,7 +26,5 @@ RSpec.describe 'Creating a Ticket', type: :feature do
     visit dashboard_url
     click_on 'Tickets'
     expect(page.body).to have_text("fakey mcfakeface")
-
   end
-
 end
