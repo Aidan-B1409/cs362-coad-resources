@@ -12,4 +12,31 @@ require 'rails_helper'
 # end
 RSpec.describe DashboardHelper, type: :helper do
 
+  describe 'dashboard_for' do
+    it "redirects an admin user to the admin dashboard" do
+      allow(@user).to receive(:admin?) { true }
+      expect(helper.dashboard_for(@user)).to eq("admin_dashboard") 
+    end
+
+    it "redirects an submitted organization user to the submitted organization dashboard" do
+      allow(@user).to receive(:admin?) { false }
+      allow(@user).to receive_message_chain(:organization, :submitted?) { true }
+      expect(helper.dashboard_for(@user)).to eq("organization_submitted_dashboard")
+    end
+    
+    it "redirects an approved organization user to the approved organization dashboard" do
+      allow(@user).to receive(:admin?) { false }
+      allow(@user).to receive_message_chain(:organization, :submitted?) { false }
+      allow(@user).to receive_message_chain(:organization, :approved?) { true }
+      expect(helper.dashboard_for(@user)).to eq("organization_approved_dashboard")
+    end
+    
+    it "redirects an unauthorized user to the create application dashboard" do
+      allow(@user).to receive(:admin?) { false }
+      allow(@user).to receive_message_chain(:organization, :submitted?) { false }
+      allow(@user).to receive_message_chain(:organization, :approved?) { false }
+      expect(helper.dashboard_for(@user)).to eq("create_application_dashboard") 
+    end
+  end
+
 end
